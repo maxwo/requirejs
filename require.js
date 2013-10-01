@@ -1802,7 +1802,7 @@ var requirejs, require, define;
                 document.createElementNS('http://www.w3.org/1999/xhtml', 'html:script') :
                 document.createElement('script');
         node.type = config.scriptType || 'text/javascript';
-        node.charset = 'utf-8';
+        node.charset = config.encoding || 'utf-8';
         node.async = true;
         return node;
     };
@@ -1932,6 +1932,12 @@ var requirejs, require, define;
             //baseUrl, if it is not already set.
             dataMain = script.getAttribute('data-main');
             if (dataMain) {
+
+                var encoding = script.getAttribute('charset');
+                if (encoding && !cfg.encoding) {
+                    cfg.encoding = encoding;
+                }
+
                 //Preserve dataMain in case it is a path (i.e. contains '?')
                 mainScript = dataMain;
 
